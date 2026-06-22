@@ -100,16 +100,16 @@ To address concerns regarding whether PARP extraction errors cause significant d
 
 **Part 1: Evaluation based on actual PARP predictions**
 
-* **Actual PARP Impedance Error (MAPE):** $2.68\%$
-* **Ground Truth:** Supply Voltage = $0.6777\text{ V}$ | $F_{\max}$ = $1.7837\text{ GHz}$
-* **PARP Prediction:** Supply Voltage = $0.6853\text{ V}$ | $F_{\max}$ = $1.8558\text{ GHz}$
-* **Conclusion:** A $2.68\%$ impedance error from PARP translates to a final $F_{\max}$ error of only $4.04\%$.
+* **Actual PARP Impedance Error (MAPE):** 2.68%
+* **Ground Truth:** Supply Voltage = 0.6777 V | $F_{\max}$ = 1.7837 GHz
+* **PARP Prediction:** Supply Voltage = 0.6853 V | $F_{\max}$ = 1.8558 GHz
+* **Conclusion:** A 2.68% impedance error from PARP translates to a final $F_{\max}$ error of only 4.04%.
 
 **Part 2: Standard Artificial Error Injection (Robustness Test)**
-We globally deteriorated the baseline impedance by $+5\%$, $+10\%$, and $+20\%$ to observe the system's robustness:
+We globally deteriorated the baseline impedance by +5%, +10%, and +20% to observe the system's robustness:
 
-* **$+5\%$ Error:** Voltage drops to $0.6766\text{ V}$ | $F_{\max}$ = $1.7732\text{ GHz}$ | Performance loss: $0.59\%$
-* **$+10\%$ Error:** Voltage drops to $0.6755\text{ V}$ | $F_{\max}$ = $1.7627\text{ GHz}$ | Performance loss: $1.17\%$
-* **$+20\%$ Error:** Voltage drops to $0.6733\text{ V}$ | $F_{\max}$ = $1.7419\text{ GHz}$ | Performance loss: $2.34\%$
+* **+5% Error:** Voltage drops to 0.6766 V | $F_{\max}$ = 1.7732 GHz | Performance loss: 0.59%
+* **+10% Error:** Voltage drops to 0.6755 V | $F_{\max}$ = 1.7627 GHz | Performance loss: 1.17%
+* **+20% Error:** Voltage drops to 0.6733 V | $F_{\max}$ = 1.7419 GHz | Performance loss: 2.34%
 
 **Summary:** The error does not propagate linearly. This is because the AIFM module processes the broadband frequency spectrum via IFFT, which naturally smooths out localized errors. Furthermore, as long as the chip operates within a healthy voltage range, the Alpha-Power Law provides a non-linear buffering effect, preventing the final $F_{\max}$ from being overly sensitive to minor impedance variations.
