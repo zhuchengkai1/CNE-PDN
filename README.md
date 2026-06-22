@@ -64,9 +64,6 @@ sim/
 
 > **Note:** All corresponding figures and visualizations for the following experiments are provided in the `Appendix/` directory of this repository.
 
-## 📊 Supplementary Experiments
-
-> **Note:** All corresponding figures and visualizations for the following experiments are provided in the `Appendix/` directory of this repository.
 
 ### Supplementary Experiment 1: Scalability Testing on Industrial Cases
 
