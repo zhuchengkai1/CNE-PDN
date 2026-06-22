@@ -100,25 +100,37 @@ class TinyRobustMLP(nn.Module):
         return self.net(x)
 
 
-
 if __name__ == "__main__":
     EPS = 1e-20
-    X, y, z_true_all = load_dataset_from_tmp("tmp")
 
-    if len(X) == 0:
-        print("[Warn] No data found.")
-        X = np.random.rand(100, 8).astype(np.float32)
-        y = np.random.rand(100, 10).astype(np.float32) * 100 + 1
-        z_true_all = np.random.rand(100, 100).astype(np.float32) * 50 + 20
+    TRAIN_DIR = "train_data"
+    TEST_DIR = "test_data"
 
-    y = np.log10(np.clip(y, EPS, None))
+    X_train, y_train, z_train = load_dataset_from_tmp(TRAIN_DIR)
 
-    X_train, X_test, y_train, y_test, z_train, z_test = train_test_split(
-        X, y, z_true_all, test_size=0.15, random_state=42
-    )
+    X_test, y_test, z_test = load_dataset_from_tmp(TEST_DIR)
+
+    if len(X_train) == 0 or len(X_test) == 0:
+        print("[Error] Training or Testing data not found. Please check folder paths.")
+        exit(1)
+
+    print(f"Data Loaded! Train samples: {len(X_train)}, Test samples: {len(X_test)}")
+
+    y_train = np.log10(np.clip(y_train, EPS, None))
+    y_test = np.log10(np.clip(y_test, EPS, None))
+
 
     scaler_x = StandardScaler()
     scaler_y = StandardScaler()
+
+    X_train = torch.tensor(scaler_x.fit_transform(X_train), dtype=torch.float32)
+    y_train = torch.tensor(scaler_y.fit_transform(y_train), dtype=torch.float32)
+
+    X_test = torch.tensor(scaler_x.transform(X_test), dtype=torch.float32)
+    y_test = torch.tensor(scaler_y.transform(y_test), dtype=torch.float32)
+
+    model = TinyRobustMLP()
+    criterion = nn.MSELoss()
 
     X_train = torch.tensor(scaler_x.fit_transform(X_train), dtype=torch.float32)
     y_train = torch.tensor(scaler_y.fit_transform(y_train), dtype=torch.float32)
@@ -131,7 +143,6 @@ if __name__ == "__main__":
     optimizer = torch.optim.AdamW(model.parameters(), lr=2e-3, weight_decay=1e-2)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=2000, eta_min=1e-5)
 
-    print("Starting Tiny Robust MLP Training (Full 2000 Epochs, Heavy Regularization)...")
     for epoch in range(2000):
         model.train()
         pred_train = model(X_train)
