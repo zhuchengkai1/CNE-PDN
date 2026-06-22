@@ -59,7 +59,6 @@ sim/
 ```
 
 
-
 ## Supplementary experiment
 
 > **Note:** All corresponding figures and visualizations for the following experiments are provided in the `Appendix/` directory of this repository.
